@@ -5,7 +5,7 @@ Una plantilla para APIs .net Arquitectura limpia DDD
 
 ## Introducción
 
-Este documento describe un proyecto desarrollado siguiendo los principios de Domain-Driven Design (DDD) implementado en .NET Core. El objetivo principal es estructurar la aplicación de manera que el dominio del negocio sea el eje central del desarrollo, asegurando flexibilidad, mantenibilidad y claridad.
+Este documento describe un proyecto desarrollado para usarse de plantilla siguiendo los principios de Domain-Driven Design (DDD) implementado en .NET Core. El objetivo principal es estructurar la aplicación de manera que el dominio del negocio sea el eje central del desarrollo, asegurando flexibilidad, mantenibilidad y claridad.
 
 ## Arquitectura del Proyecto
 
@@ -58,6 +58,29 @@ El proyecto está dividido en las siguientes capas:
 
 ### 2. Aplicación
 
+Orquestación: Coordina las interacciones entre la capa de dominio, infraestructura, y la capa de presentación.
+Aislamiento: Evita que la lógica de negocio del dominio se mezcle con la infraestructura o la presentación.
+Transparencia: Proporciona una API consistente que puede ser usada por controladores, servicios externos o pruebas automatizadas.
+
+.NET Core cumple con la función de coordinar las operaciones de negocio y servir de intermediario entre la capa de dominio y las interfaces externas (como API o interfaces de usuario).
+
+1. DTOs (Data Transfer Objects):
+   Contienen modelos simples usados para transferir datos entre la capa de aplicación y la capa de presentación (o entre la aplicación y servicios externos).
+   Ejemplo: CreateClientDTO.cs
+        
+2. Interfaces:
+   Definen contratos para los servicios que implementan lógica de negocio en esta capa.
+   Ejemplo: IClientService.cs probablemente describe las operaciones que pueden realizarse relacionadas con los clientes (crear, obtener, actualizar, eliminar).
+
+3. Mapping (Automapper):
+   Contiene configuraciones para mapear objetos entre diferentes capas (como DTOs y entidades del dominio) usando AutoMapper.
+   Ejemplo: MappingProfile.cs
+
+4. Services:
+   - Contiene la implementación de los casos de uso o lógica de la aplicación.
+   - Por ejemplo, ClientAppService o ClientService implementan las operaciones definidas en IClientService. Estos servicios interactúan con la capa de dominio y otros servicios, como            repositorios.
+
+   
 - **Casos de Uso:** Orquestan la lógica del dominio para cumplir con los requisitos del negocio.
   ```csharp
   public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, Guid>
