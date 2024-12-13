@@ -1,6 +1,0 @@
-﻿services:
-  amochika.presentation:
-    image: amochika.presentation
-    build:
-      context: .
-      dockerfile: AMochika.Presentation/Dockerfile

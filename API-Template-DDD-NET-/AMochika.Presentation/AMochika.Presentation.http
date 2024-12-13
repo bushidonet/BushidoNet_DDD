@@ -1,6 +1,0 @@
-@AMochika.Presentation_HostAddress = http://localhost:5104
-
-GET {{AMochika.Presentation_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
