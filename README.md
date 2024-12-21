@@ -32,7 +32,8 @@ El proyecto está dividido en las siguientes capas:
 ### 1. Dominio
 
 - **Entidades:** Clases que representan los conceptos principales del negocio y tienen identidad.
-  ```csharp
+  
+- ```csharp
   public class Order
   {
       public Guid Id { get; private set; }
@@ -58,23 +59,23 @@ El proyecto está dividido en las siguientes capas:
 
 ### 2. Aplicación
 
-Orquestación: Coordina las interacciones entre la capa de dominio, infraestructura, y la capa de presentación.
-Aislamiento: Evita que la lógica de negocio del dominio se mezcle con la infraestructura o la presentación.
-Transparencia: Proporciona una API consistente que puede ser usada por controladores, servicios externos o pruebas automatizadas.
+- Orquestación: Coordina las interacciones entre la capa de dominio, infraestructura, y la capa de presentación.
+- Aislamiento: Evita que la lógica de negocio del dominio se mezcle con la infraestructura o la presentación.
+- Transparencia: Proporciona una API consistente que puede ser usada por controladores, servicios externos o pruebas automatizadas.
 
 .NET Core cumple con la función de coordinar las operaciones de negocio y servir de intermediario entre la capa de dominio y las interfaces externas (como API o interfaces de usuario).
 
-1. DTOs (Data Transfer Objects):
-   Contienen modelos simples usados para transferir datos entre la capa de aplicación y la capa de presentación (o entre la aplicación y servicios externos).
-   Ejemplo: CreateClientDTO.cs
+1. DTOs (Data Transfer Objects):/b
+   - Contienen modelos simples usados para transferir datos entre la capa de aplicación y la capa de presentación (o entre la aplicación y servicios externos).
+   - Ejemplo: CreateClientDTO.cs
         
 2. Interfaces:
-   Definen contratos para los servicios que implementan lógica de negocio en esta capa.
-   Ejemplo: IClientService.cs probablemente describe las operaciones que pueden realizarse relacionadas con los clientes (crear, obtener, actualizar, eliminar).
+   - Definen contratos para los servicios que implementan lógica de negocio en esta capa.
+   - Ejemplo: IClientService.cs probablemente describe las operaciones que pueden realizarse relacionadas con los clientes (crear, obtener, actualizar, eliminar).
 
 3. Mapping (Automapper):
-   Contiene configuraciones para mapear objetos entre diferentes capas (como DTOs y entidades del dominio) usando AutoMapper.
-   Ejemplo: MappingProfile.cs
+   - Contiene configuraciones para mapear objetos entre diferentes capas (como DTOs y entidades del dominio) usando AutoMapper.
+   - Ejemplo: MappingProfile.cs
 
 4. Services:
    - Contiene la implementación de los casos de uso o lógica de la aplicación.
@@ -82,7 +83,8 @@ Transparencia: Proporciona una API consistente que puede ser usada por controlad
 
    
 - **Casos de Uso:** Orquestan la lógica del dominio para cumplir con los requisitos del negocio.
-  ```csharp
+  
+- ```csharp
   public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, Guid>
   {
       private readonly IOrderRepository _orderRepository;
@@ -99,7 +101,8 @@ Transparencia: Proporciona una API consistente que puede ser usada por controlad
 ### 3. Infraestructura
 
 - **Persistencia:** Implementada con Entity Framework Core o cualquier otro ORM.
-  ```csharp
+
+```csharp
   public class OrderRepository : IOrderRepository
   {
       private readonly AppDbContext _context;
