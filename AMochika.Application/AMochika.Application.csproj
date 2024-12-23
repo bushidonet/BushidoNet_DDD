@@ -9,10 +9,17 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AMochika.Core\AMochika.Core.csproj" />
+      <ProjectReference Include="..\AMochika.Infrastructure\AMochika.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="AMochika.Core">
+        <HintPath>..\AMochika.Test\bin\Debug\net9.0\AMochika.Core.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

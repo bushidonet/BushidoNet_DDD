@@ -1,45 +1,69 @@
+
+using AMochika.Application.DTOs;
 using AMochika.Application.Interfaces;
 using AMochika.Core.Entities;
-using AMochika.Core.Interfaces;
+using AMochika.Infrastructure.Repositories;
+using AutoMapper;
 
 namespace AMochika.Application.Services;
 
 public class ClientService : IClientService
 {
     private readonly IClientRepository _clientRepository;
+    private readonly IMapper _mapper;
+    private IClientService _clientImplementation;
 
-    public ClientService(IClientRepository clientRepository)
+    public ClientService(IClientRepository clientRepository, IMapper mapper)
     {
         _clientRepository = clientRepository;
+        _mapper = mapper;
     }
 
     //GET by ID
-    public async Task<Client> GetClientByIdAsync(int id)
+    public async Task<ClientDTO> GetClientByIdAsync(int id)
     {
-        return await _clientRepository.GetByIdAsync(id);
+
+        var result = await _clientRepository.GetByIdAsync(id);
+        var resultDto = _mapper.Map<ClientDTO>(result);
+        return resultDto;
     }
+
+
     //GET ALL CLIENT 
     public async Task<IEnumerable<Client>> GetAllClientAsync()
     {
         return await _clientRepository.GetAllAsync();
     }
+
     //ADD CLIENT 
-    public async Task<int> AddClientAsync(Client client)
+    public async Task<int> AddClientAsync(CreateClientDTO clientDto)
     {
-       var result = await _clientRepository.AddAsync(client);
-       return result;
+        var client = _mapper.Map<AMochika.Core.Entities.Client>(clientDto);
+        var result = await _clientRepository.AddAsync(client);
+        return result.Id;
     }
+
     //UPDATE CLIENT
-    public async Task<int> UpdateAsync(Client client)
+    public async Task<UpdateClientDTO> UpdateAsync(UpdateClientDTO clientDto)
     {
+
+        var clientExist = await _clientRepository.ClientExistAsync(clientDto.Id);
+        if (clientExist == false) return null;
+
+        var client = _mapper.Map<Client>(clientDto);
+
+
         await _clientRepository.UpdateAsync(client);
-        return client.Id;
+        var updatedClient = _mapper.Map<UpdateClientDTO>(client);
+        return updatedClient;
     }
+
     //DELETE CLIENT
-    public async Task<int> DeleteAsync(int id)
+    public async Task<int> DeleteAsync(int clientId)
     {
-        await _clientRepository.DeleteAsync(id);
-        return id;
+        var clientExist = await _clientRepository.GetByIdAsync(clientId);
+        if (clientExist is null) return -1;
+        var result = await _clientRepository.DeleteAsync(clientExist);
+        return result.Id;
     }
-    
 }
