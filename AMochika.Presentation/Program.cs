@@ -1,16 +1,26 @@
 using AMochika.Application;
+using AMochika.Application.Interfaces;
+using AMochika.Application.Mapping;
+using AMochika.Application.Services;
 using AMochika.Core.Interfaces;
-using AMochika.Core.Services;
 using AMochika.Infrastructure.Configuration;
 using AMochika.Infrastructure.Repositories;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Cargar las variables de entorno desde el archivo .env
+Env.Load();
 
-// Configura el DbContext con SQL Server
+// Configuración de la aplicación
+builder.Configuration.AddEnvironmentVariables();
+
+string DefaultConnection = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION_STRING");
+
+// Configura el DbContext con SQL Server 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+    options.UseSqlServer(DefaultConnection
     ).EnableSensitiveDataLogging()); // Habilitar Sensitive Data Logging para mostrar información detallada
 
 // Agregar Swagger al contenedor de servicios
@@ -19,15 +29,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 // Registra IClientAppService como un servicio
-builder.Services.AddScoped<ClientAppService>();
+//builder.Services.AddScoped<ClientAppService>();
+builder.Services.AddScoped<ClientService>();
 // Registrar repositorios
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 // Registrar servicios
-builder.Services.AddScoped<ClientService>();
+//builder.Services.AddScoped<ClientService1>();
 // Registrar repositorios en el contenedor de dependencias
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -39,9 +52,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapControllers(); 
+app.MapControllers();
 
 app.UseHttpsRedirection();
 
 app.Run();
-
