@@ -53,12 +53,15 @@ var app = builder.Build();
         c.RoutePrefix = string.Empty; // Hace que Swagger sea la página principal
     });
     
-app.MapHealthChecks("/health");
+
 
 
 app.MapControllers();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(); // Habilita el servicio de archivos estáticos
+app.UseRouting();
 app.UseDeveloperExceptionPage();
 app.UseHsts();
+app.MapHealthChecks("/health");
 app.Run();
