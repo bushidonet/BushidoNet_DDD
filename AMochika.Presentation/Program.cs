@@ -28,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-// Registra IClientAppService como un servicio
+// SERVICIOS:
 //builder.Services.AddScoped<ClientAppService>();
 builder.Services.AddScoped<ClientService>();
 // Registrar repositorios
@@ -37,6 +37,7 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 //builder.Services.AddScoped<ClientService1>();
 // Registrar repositorios en el contenedor de dependencias
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 var app = builder.Build();
