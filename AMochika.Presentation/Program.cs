@@ -55,6 +55,8 @@ var app = builder.Build();
     
 app.MapHealthChecks("/health");
 
+app.UseDeveloperExceptionPage();
+
 app.MapControllers();
 
 app.UseHttpsRedirection();
