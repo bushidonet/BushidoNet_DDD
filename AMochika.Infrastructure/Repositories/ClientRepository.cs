@@ -6,49 +6,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AMochika.Infrastructure.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository(AppDbContext context) : IClientRepository
     {
-        private readonly AppDbContext _context;
-
-        public ClientRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<Client> GetByIdAsync(int id)
         {
-            return await _context.Clients.FindAsync(id);
+            var result = await context.Clients.FindAsync(id);
+            if (result == null) return null;
+            return result;
         }
 
-        public async Task<int> AddAsync(Client client)
+        public async Task<bool> ClientExistAsync(int id)
         {
-            await _context.Clients.AddAsync(client);
-            return client.Id;
+            return await context.Clients.AnyAsync(x => x.Id == id);
+
+        }
+
+        public async Task<Client> AddAsync(Client client)
+        {
+            await context.Clients.AddAsync(client);
+            await context.SaveChangesAsync();
+            return client;
         }
 
         public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            return await _context.Clients.ToListAsync();
+            return await context.Clients.ToListAsync();
         }
 
         public async Task<int> UpdateAsync(Client client)
         {
-            _context.Clients.Update(client);
-            await _context.SaveChangesAsync();
+            context.Clients.Update(client);
+            await context.SaveChangesAsync();
             return client.Id;
         }
 
-        public async Task<int> DeleteAsync(int id)
-        {
-            var client = await GetByIdAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-                await _context.SaveChangesAsync();
-                return client.Id;
-            }
 
-            return 0;
+
+        public async Task<Client> DeleteAsync(Client client)
+        {
+            context.Clients.Remove(client);
+            await context.SaveChangesAsync();
+            return client;
         }
     }
 }
