@@ -1,6 +1,6 @@
 namespace AMochika.Core.Entities;
 
-public class Purchase
+public class Purchase //Compra
 {
     public int Id { get; set; }
     public int ClientId { get; set; }
