@@ -5,7 +5,7 @@ namespace AMochika.Test.Data;
 
 public class Seed
 {
-    
+
 }
 //
 // public class TestDbContext : DbContext
