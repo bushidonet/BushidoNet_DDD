@@ -40,6 +40,8 @@ builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 
@@ -50,7 +52,8 @@ var app = builder.Build();
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
         c.RoutePrefix = string.Empty; // Hace que Swagger sea la página principal
     });
-
+    
+app.MapHealthChecks("/health");
 
 app.MapControllers();
 
