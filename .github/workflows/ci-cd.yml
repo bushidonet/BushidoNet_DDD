@@ -28,7 +28,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
        # 6. Deploy to Azure App Service
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v4
+      uses: azure/webapps-deploy@v3
       with:
         app-name: yev       # Replace with the name of your Azure App Service
         slot-name: production                  # Optional: use if deploying to a specific slot
