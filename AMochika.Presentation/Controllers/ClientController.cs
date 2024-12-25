@@ -1,6 +1,7 @@
 using AMochika.Application;
 using AMochika.Application.DTOs;
 using AMochika.Application.Services;
+using AMochika.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMochika.Presentation.Controller;
@@ -27,6 +28,14 @@ public class ClientController : ControllerBase
     //     return BadRequest("Client has not paid the monthly fee.");
     // }
 
+    [HttpGet("getTest")]
+    public async Task<IActionResult> GetTest()
+    {
+       
+        var client = new Client { Id = 2, FirstName = "Existing Client" };
+        
+        return Ok(client);
+    }
     [HttpGet("getClient/{clientId}")]
     public async Task<IActionResult> GetClientById(int clientId)
     {
