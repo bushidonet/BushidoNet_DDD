@@ -2,6 +2,7 @@ using AMochika.Application;
 using AMochika.Application.DTOs;
 using AMochika.Application.Services;
 using AMochika.Core.Entities;
+using AMochika.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AMochika.Presentation.Controller;
@@ -11,10 +12,12 @@ namespace AMochika.Presentation.Controller;
 public class ClientController : ControllerBase
 {
     private readonly ClientService _client;
+    private readonly IRepository<Client> _generic;
 
-    public ClientController(ClientService client)
+    public ClientController(ClientService client, IRepository<Client> repository)
     {
         _client = client;
+        _generic = repository;
     }
 
     // [HttpGet("validate-payment/{clientId}")]
@@ -32,14 +35,26 @@ public class ClientController : ControllerBase
     public async Task<IActionResult> GetTest()
     {
        
-        var client = new Client { Id = 2, FirstName = "Existing Client" };
-        
-        return Ok(client);
+        var newClient = new Client
+        {
+            FirstName = "Eugen",
+            LastName = "Smith",
+            Email = "jane.smith@example.com",
+            Phone = "987-654-3210",
+            BirthDate = new DateTime(1992, 6, 15)
+        };
+
+        //var clientGeneric = _generic.GetAllAsync().Result;
+        //var client = _generic.GetByIdAsync(2).Result;
+        //await _generic.AddAsync(newClient);
+
+        await _generic.DeleteAsync(15);
+        return Ok();
     }
     [HttpGet("getClient/{clientId}")]
     public async Task<IActionResult> GetClientById(int clientId)
     {
-        var result = await _client.GetClientByIdAsync(clientId);
+        var result =  _client.GetClientByIdAsync(clientId).Result;
         return Ok(result);
     }
 
