@@ -27,7 +27,7 @@ public class AppDbContext: DbContext
             .HasKey(cp => new { cp.PurchaseId, cp.ProductId });  
         
         modelBuilder.Entity<PurchaseDetail>()
-            .HasOne(cp => cp.Purchase)
+                .HasOne(cp => cp.Purchase)
             .WithMany(c => c.PurchaseDetails)
             .HasForeignKey(cp => cp.PurchaseId);
         
