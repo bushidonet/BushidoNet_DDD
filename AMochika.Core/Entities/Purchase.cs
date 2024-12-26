@@ -4,7 +4,7 @@ public class Purchase //Compra
 {
     public int Id { get; set; }
     public int ClientId { get; set; }
-    public DateTime PurchaseDate { get; set; }
+    public DateTime Date { get; set; }
     public decimal TotalAmount { get; set; }
     public bool IsDeleted { get; set; }
 

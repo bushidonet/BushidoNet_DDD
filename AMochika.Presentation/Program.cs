@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AMochika.Application;
 using AMochika.Application.Interfaces;
 using AMochika.Application.Mapping;
@@ -7,6 +8,7 @@ using AMochika.Infrastructure.Configuration;
 using AMochika.Infrastructure.Repositories;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +22,10 @@ string DefaultConnection = Environment.GetEnvironmentVariable("DEFAULT_CONNECTIO
 
 // Configura el DbContext con SQL Server 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(DefaultConnection
-    ).EnableSensitiveDataLogging()); // Habilitar Sensitive Data Logging para mostrar información detallada
+    options.UseSqlServer(DefaultConnection)
+           .EnableSensitiveDataLogging()
+           .ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning)
+           ));// Habilitar Sensitive Data Logging para mostrar información detallada
 
 // Agregar Swagger al contenedor de servicios
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +35,11 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+        // Configuración para evitar el ciclo de referencias
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+
+        // Configura la profundidad máxima de serialización si es necesario
+        options.JsonSerializerOptions.MaxDepth = 32;  // Puedes ajustar este valor si es necesario
     });
 
 // SERVICIOS:

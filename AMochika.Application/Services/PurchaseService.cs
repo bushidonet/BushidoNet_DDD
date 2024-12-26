@@ -17,6 +17,7 @@ namespace AMochika.Application.Services
         public async Task<Purchase> GetByIdAsync(int id)
         {
             return await _purchaseRepository.GetByIdAsync(id);
+            
         }
 
         public async Task<IEnumerable<Purchase>> GetPurchaseByClientIdAsync(int clientId)

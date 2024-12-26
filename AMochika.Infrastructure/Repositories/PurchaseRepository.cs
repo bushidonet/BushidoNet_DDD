@@ -18,7 +18,9 @@ namespace AMochika.Infrastructure.Repositories
         public async Task<Purchase> GetByIdAsync(int id)
         {
             return await _context.Purchases
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(p => p.Client)
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         // Obtener todas las compras de un cliente específico

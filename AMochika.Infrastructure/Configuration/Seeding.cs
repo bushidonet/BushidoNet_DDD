@@ -23,5 +23,165 @@ public class Seeding
         };
         
         modelBuilder.Entity<Client>().HasData(clients);
+        
+        // Seeding Purchases
+        var random = new Random();
+        var purchases = new List<Purchase>();
+        for (int i = 1; i <= 20; i++)
+        {
+            var client = clients[random.Next(clients.Length)];
+            purchases.Add(new Purchase
+            {
+                Id = i,
+                ClientId = client.Id,
+                Date = DateTime.Now.AddDays(-random.Next(1, 31)),
+                TotalAmount = Math.Round((decimal)(random.NextDouble() * 1000 + 50), 2),
+                IsDeleted = false
+            });
+        }
+
+        modelBuilder.Entity<Purchase>().HasData(purchases);
+        
+        // Seeding de Productos (10 productos)
+        modelBuilder.Entity<Product>().HasData(
+            new Product { Id = 1, Name = "Product A", Description = "Description of Product A", Price = 100.00m },
+            new Product { Id = 2, Name = "Product B", Description = "Description of Product B", Price = 200.00m },
+            new Product { Id = 3, Name = "Product C", Description = "Description of Product C", Price = 150.00m },
+            new Product { Id = 4, Name = "Product D", Description = "Description of Product D", Price = 120.00m },
+            new Product { Id = 5, Name = "Product E", Description = "Description of Product E", Price = 250.00m },
+            new Product { Id = 6, Name = "Product F", Description = "Description of Product F", Price = 180.00m },
+            new Product { Id = 7, Name = "Product G", Description = "Description of Product G", Price = 220.00m },
+            new Product { Id = 8, Name = "Product H", Description = "Description of Product H", Price = 300.00m },
+            new Product { Id = 9, Name = "Product I", Description = "Description of Product I", Price = 350.00m },
+            new Product { Id = 10, Name = "Product J", Description = "Description of Product J", Price = 400.00m }
+        );
+        
+        // Seeding de PurchaseDetails (detalles de la compra)
+        modelBuilder.Entity<PurchaseDetail>().HasData(
+            new PurchaseDetail
+            {
+                Id = 1,
+                ProductId = 1,
+                PurchaseId = 1,
+                Quantity = 2,
+                UnitPrice = 100.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 2,
+                ProductId = 2,
+                PurchaseId = 2,
+                Quantity = 1,
+                UnitPrice = 200.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 3,
+                ProductId = 3,
+                PurchaseId = 1,
+                Quantity = 3,
+                UnitPrice = 150.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 4,
+                ProductId = 4,
+                PurchaseId = 2,
+                Quantity = 1,
+                UnitPrice = 120.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 5,
+                ProductId = 5,
+                PurchaseId = 1,
+                Quantity = 2,
+                UnitPrice = 250.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 6,
+                ProductId = 6,
+                PurchaseId = 2,
+                Quantity = 1,
+                UnitPrice = 180.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 7,
+                ProductId = 7,
+                PurchaseId = 1,
+                Quantity = 1,
+                UnitPrice = 220.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 8,
+                ProductId = 8,
+                PurchaseId = 2,
+                Quantity = 1,
+                UnitPrice = 300.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 9,
+                ProductId = 9,
+                PurchaseId = 1,
+                Quantity = 1,
+                UnitPrice = 350.00m
+            },
+            new PurchaseDetail
+            {
+                Id = 10,
+                ProductId = 10,
+                PurchaseId = 2,
+                Quantity = 1,
+                UnitPrice = 400.00m
+            }
+        );
+        
+        // Seeding de Recomendaciones
+        modelBuilder.Entity<Recommendation>().HasData(
+            new Recommendation
+            {
+                Id = 1,
+                ClientId = 1,
+                ProductId = 1,
+                RecommendationDate = DateTime.Now,
+                Reason = "Highly recommended product!"
+            },
+            new Recommendation
+            {
+                Id = 2,
+                ClientId = 2,
+                ProductId = 2,
+                RecommendationDate = DateTime.Now,
+                Reason = "Great value for money!"
+            },
+            new Recommendation
+            {
+                Id = 3,
+                ClientId = 1,
+                ProductId = 5,
+                RecommendationDate = DateTime.Now,
+                Reason = "Best choice for premium customers!"
+            },
+            new Recommendation
+            {
+                Id = 4,
+                ClientId = 2,
+                ProductId = 7,
+                RecommendationDate = DateTime.Now,
+                Reason = "Excellent durability!"
+            },
+            new Recommendation
+            {
+                Id = 5,
+                ClientId = 1,
+                ProductId = 10,
+                RecommendationDate = DateTime.Now,
+                Reason = "Amazing quality and performance!"
+            }
+        );
     }
 }

@@ -21,7 +21,13 @@ public class PurchaseController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var purchase = await _purchaseService.GetByIdAsync(id);
+        var purchase = await _purchaseService
+            .GetByIdAsync(id);
+        
+       
+
+        var client = purchase?.Client;
+        
         if (purchase == null)
         {
             return NotFound();
