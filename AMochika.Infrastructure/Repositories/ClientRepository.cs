@@ -24,7 +24,6 @@ namespace AMochika.Infrastructure.Repositories
         public async Task<Client> AddAsync(Client client)
         {
             await context.Clients.AddAsync(client);
-            await context.SaveChangesAsync();
             return client;
         }
 
@@ -33,20 +32,16 @@ namespace AMochika.Infrastructure.Repositories
             return await context.Clients.ToListAsync();
         }
 
-        public async Task<int> UpdateAsync(Client client)
+        public int Update(Client client)
         {
             context.Clients.Update(client);
-            await context.SaveChangesAsync();
-            return client.Id;
+            return  client.Id;
         }
-
-
-
-        public async Task<Client> DeleteAsync(Client client)
+        
+        public Client Delete(Client client)
         {
-            context.Clients.Remove(client);
-            await context.SaveChangesAsync();
-            return client;
+            var result = context.Clients.Remove(client);
+            return result.Entity;
         }
     }
 }

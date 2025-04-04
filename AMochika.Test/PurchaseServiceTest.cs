@@ -21,7 +21,7 @@ public class PurchaseServiceTest
     {
         // Configurar DbContext para usar base de datos en memoria
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase("TestDatabase")  // Nombre único para evitar conflictos entre pruebas
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())  // Nombre único para evitar conflictos entre pruebas
             .Options;
         
         var config = new MapperConfiguration(cfg =>

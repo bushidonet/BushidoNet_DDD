@@ -21,3 +21,15 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AMochika.Presentation.dll"]
+
+# Cambiar a usuario root para tener permisos de instalación
+USER root
+
+# Instalar dependencias de Azure CLI
+RUN apt-get update && apt-get install -y curl lsb-release apt-transport-https ca-certificates
+
+# Instalar Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+# Iniciar Azure CLI
+RUN az --version

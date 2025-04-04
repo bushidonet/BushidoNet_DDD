@@ -9,8 +9,8 @@ namespace AMochika.Infrastructure.Repositories
         Task<bool> ClientExistAsync(int id);
         Task<IEnumerable<Client>> GetAllAsync();
         Task<Client> AddAsync(Client client);
-        Task<int> UpdateAsync(Client client);
-        Task<Client> DeleteAsync(Client client);
+        int Update(Client client);
+        Client Delete(Client client);
     }
 
 }

@@ -35,7 +35,7 @@ public class Repository<T> : IRepository<T> where T : class
         }
         
     }
-
+    
     public async Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);

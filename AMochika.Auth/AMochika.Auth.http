@@ -1,0 +1,6 @@
+@AMochika.Auth_HostAddress = http://localhost:5078
+
+GET {{AMochika.Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

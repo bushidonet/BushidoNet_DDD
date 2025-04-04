@@ -2,9 +2,9 @@ namespace AMochika.Application.DTOs;
 
 public class CreateClientDTO
 {
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public string Email { get; init; }
-    public string Phone { get; init; }
-    public DateTime BirthDate { get; init; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTime BirthDate { get; set; }
 }
