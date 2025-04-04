@@ -1,0 +1,71 @@
+@page "/login"
+@using AMochika.Core.Entities.Auth
+
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@inject ILocalStorageService LocalStorage
+@using Blazored.LocalStorage
+@inject ILoginService LoginService
+
+@* strin23gZ.. *@
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin" FormName="loginForm">
+    @* <DataAnnotationsValidator /> *@
+    @* <ValidationSummary /> *@
+
+    <div>
+        <label>Usuario</label>
+        <InputText id="username" @bind-Value="loginModel.Username" class="form-control" />
+        <ValidationMessage For="@(() => loginModel.Username)" /> 
+    </div>
+
+    <div>
+        <label>Contraseña</label>
+        <InputText id="pass" @bind-Value="loginModel.Password" Type="password" class="form-control" />
+        @* <ValidationMessage For="@(() => loginModel.Password)" /> *@
+    </div>
+    
+    <button type="submit">Iniciar Sesión</button>
+</EditForm>
+
+@code {
+    private Login loginModel = new Login();
+
+    private async Task HandleLogin()
+    {
+        var loginRequest = new
+        {
+            Username = loginModel.Username,
+            Password = loginModel.Password
+        };
+        Console.WriteLine($"Usuario: {loginModel.Username}, Contraseña: {loginModel.Password}");
+
+        var response = await Http.PostAsJsonAsync("http://localhost:5078/api/Auth/login", loginModel);
+        if (response.IsSuccessStatusCode)
+        {
+            //Leer el TOKEN
+            var jsonResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+            string token = jsonResponse.Token;
+            //Registrar a un usuario
+            await LoginService.Login(token);
+            // Guardar token en localStorage
+            await LocalStorage.SetItemAsync("authToken", token); 
+            
+            // Redirigir después de iniciar sesión
+            Navigation.NavigateTo("/perfil"); 
+        }
+        else
+        {
+            // Manejar error de login
+        }
+        
+    }
+    
+    public class LoginResponse
+    {
+        public string Token { get; set; }
+    }
+
+}

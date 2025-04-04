@@ -1,0 +1,45 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+
+@code {
+    private int currentCount = 0;
+
+    private AuthenticationState? _authState;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
+    
+    private async void IncrementCount()
+    {
+        //De esta manera podemos observar de si esta autenticado o no. 
+        //Podemos acceder a todos los Claims.
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+        
+        
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            currentCount++;
+            Console.WriteLine($"Usuario autenticado: {user.Identity.Name}");
+        }
+        else
+        {
+            currentCount--;
+            Console.WriteLine("El usuario no está autenticado.");
+        }
+    }
+}

@@ -1,0 +1,122 @@
+@* @page "/perfil" *@
+@* @inject HttpClient Http *@
+@* @rendermode InteractiveServer *@
+@* @using System.Text.Json *@
+@* @using AMochika.Application.DTOs *@
+@* @using AMochika.Core.Entities *@
+@* @using Microsoft.AspNetCore.Authorization *@
+@* @using Microsoft.AspNetCore.Components.Authorization *@
+@* @using Nest *@
+@* @inject IJSRuntime JSRuntime *@
+@* $1$ @attribute [Authorize(Roles = "admin")] #1# *@
+@* <h3 class="text-center mb-4">Gestión de Clientes</h3> *@
+@* <CascadingAuthenticationState> *@
+@*     <AuthorizeView > *@
+@*         <Authorized> *@
+@*             <p>Estas autentificado @context.User.Identity?.Name</p> *@
+@*         </Authorized> *@
+@*         <NotAuthorized> *@
+@*             <p>No estas autorizado @context.User.Identity?.Name</p> *@
+@*         </NotAuthorized> *@
+@*     </AuthorizeView> *@
+@* </CascadingAuthenticationState> *@
+@* *@
+@* <div class="container"> *@
+@*     <!-- Campo de búsqueda --> *@
+@*     <EditForm Model="@addNewClient" OnValidSubmit="@HandleSubmit"> *@
+@*         <DataAnnotationsValidator /> *@
+@*         <ValidationSummary /> *@
+@* *@
+@*         <div class="row g-3 align-items-center"> *@
+@*             <!-- Primer nombre --> *@
+@*             <div class="col-md-4 mb-3"> *@
+@*                 <label for="firstName">First Name</label> *@
+@*                 <InputText id="firstName" class="form-control" @bind-Value="@addNewClient.FirstName" /> *@
+@*                 <ValidationMessage For="@(() => newClient.FirstName)" /> *@
+@*             </div> *@
+@* *@
+@*             <!-- Apellido --> *@
+@*             <div class="col-md-4 mb-3"> *@
+@*                 <label for="lastName">Last Name</label> *@
+@*                 <InputText id="lastName" class="form-control" @bind-Value="@addNewClient.LastName" /> *@
+@*                 <ValidationMessage For="@(() => newClient.LastName)" /> *@
+@*             </div> *@
+@* *@
+@*             <!-- Correo Electrónico --> *@
+@*             <div class="col-md-4 mb-3"> *@
+@*                 <label for="email">Email</label> *@
+@*                 <InputText id="email" class="form-control" @bind-Value="@addNewClient.Email" /> *@
+@*                 <ValidationMessage For="@(() => newClient.Email)" /> *@
+@*             </div> *@
+@*             <!-- Telefono --> *@
+@*             <div class="col-md-4 mb-3"> *@
+@*                 <label for="tel">Phone</label> *@
+@*                 <InputText id="tel" class="form-control" @bind-Value="@addNewClient.Phone" /> *@
+@*                 <ValidationMessage For="@(() => newClient.Phone)" /> *@
+@*             </div> *@
+@*         </div> *@
+@* *@
+@*         <div class="d-flex justify-content-center gap-2 mt-3"> *@
+@*             <button type="submit" class="btn btn-primary mt-3"> *@
+@*                 @(selectedClient != null ? "Actualizar Cliente" : "Registrar Cliente") *@
+@*             </button> *@
+@*             <button type="button" class="btn btn-warning mt-3" @onclick="HandleClear"> *@
+@*                 Limpiar Campos *@
+@*             </button> *@
+@*             <button type="button" class="btn btn-danger mt-3" @onclick="HandleDelete" disabled="@(selectedClient == null)"> *@
+@*                 Eliminar *@
+@*             </button> *@
+@*             <button type="button" class="btn btn-info mt-3" @onclick="ShowClientHistory" disabled="@(selectedClient == null)"> *@
+@*                 🕘 Ver Historial *@
+@*             </button> *@
+@*         </div> *@
+@*     </EditForm> *@
+@* *@
+@*     <!-- Tabla de clientes --> *@
+@*     <div class="w-100 mt-4"> *@
+@*         <h4 class="text-center">Lista de Clientes</h4> *@
+@*         <table class="table table-striped"> *@
+@*             <thead> *@
+@*                 <tr> *@
+@*                     <th>First Name</th> *@
+@*                     <th>Last Name</th> *@
+@*                     <th>Email</th> *@
+@*                 </tr> *@
+@*             </thead> *@
+@*             <tbody> *@
+@*                 @foreach (var client in filteredClients) *@
+@*                 { *@
+@*                     <tr @onclick="(() => HandleSelectClient(client))" *@
+@*                         style="cursor: pointer; background-color: @(selectedClient?.Id == client.Id ? "#cce5ff" : "inherit")"> *@
+@*                         <td>@client.FirstName</td> *@
+@*                         <td>@client.LastName</td> *@
+@*                         <td>@client.Email</td> *@
+@*                     </tr> *@
+@*                 } *@
+@*             </tbody> *@
+@*         </table> *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* @if (showHistory && selectedClient != null) *@
+@* { *@
+@*     <div class="modal fade show d-block" style="background-color: rgba(0,0,0,0.5);"> *@
+@*         <div class="modal-dialog"> *@
+@*             <div class="modal-content"> *@
+@*                 <div class="modal-header"> *@
+@*                     <h5 class="modal-title">Historial de @selectedClient.FirstName</h5> *@
+@*                     <button type="button" class="btn-close" @onclick="CloseModal"></button> *@
+@*                 </div> *@
+@*                 <div class="modal-body"> *@
+@*                     <ul> *@
+@*                         *@
+@*                     </ul> *@
+@*                 </div> *@
+@*                 <div class="modal-footer"> *@
+@*                     <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cerrar</button> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* } *@
+@* *@
