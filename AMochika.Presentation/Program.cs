@@ -79,7 +79,7 @@ builder.Services.AddHealthChecks();
 builder.WebHost.ConfigureKestrel(options =>
 {
     logger.Info("Solicitud recibida en la raíz");
-    options.ListenAnyIP(8080);
+    options.ListenAnyIP(80);
 });
 
 //LOG CONFIGURATION:  NLog
