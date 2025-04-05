@@ -102,7 +102,7 @@ builder.Host.UseNLog();
 
 // Agrega servicios de autenticación y autorización
 var key = Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"]);
-builder.WebHost.UseUrls("http://0.0.0.0:80");
+builder.WebHost.UseUrls("http://*:80");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
