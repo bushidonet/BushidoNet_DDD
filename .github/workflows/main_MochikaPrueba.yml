@@ -45,7 +45,7 @@ jobs:
         app-name: 'mm'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_cfb8f2331ae54cc69627f65d1d453f53 }}
-        images: 'registrymochika.azurecr.io/${{ toLower(secrets.AzureAppService_ContainerUsername_7ff6988a9bb74f309c21699ef671f11e)}}/mochika/app:${{ github.sha }}'
+        images: 'registrymochika.azurecr.io/registrymochika/mochika/app:${{ github.sha }}'
 
 
 
