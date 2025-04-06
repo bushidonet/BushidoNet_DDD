@@ -34,17 +34,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: production
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-  
+
     steps:
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'mm'  # <- nombre exacto de tu App Service
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'mochika.azurecr.io/mochika/app:${{ github.sha }}'
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'mm'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_cfb8f2331ae54cc69627f65d1d453f53 }}
+        images: 'registrymochika.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7ff6988a9bb74f309c21699ef671f11e }}/mochika/app:${{ github.sha }}'
 
 
 
