@@ -18,7 +18,7 @@ public class PurchaseController : ControllerBase
     }
 
     // Obtener una compra por su ID
-    [HttpGet("{id}")]
+    [HttpGet("purchase/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var purchase = await _purchaseService
@@ -36,7 +36,7 @@ public class PurchaseController : ControllerBase
     }
 
     // Obtener todas las compras de un cliente específico
-    [HttpGet("client/{clientId}")]
+    [HttpGet("purchaseByclient/{clientId}")]
     public async Task<IActionResult> GetByClientId(int clientId)
     {
         var purchases = await _purchaseService.GetPurchaseByClientIdAsync(clientId);
@@ -65,7 +65,7 @@ public class PurchaseController : ControllerBase
     }
 
     // Eliminar una compra de forma lógica (soft delete)
-    [HttpDelete("{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         await _purchaseService.DeleteSoftAsync(id);
