@@ -42,7 +42,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'MochikaPrueba'  # <- nombre exacto de tu App Service
+          app-name: 'mm'  # <- nombre exacto de tu App Service
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'mochika.azurecr.io/mochika/app:${{ github.sha }}'
 
