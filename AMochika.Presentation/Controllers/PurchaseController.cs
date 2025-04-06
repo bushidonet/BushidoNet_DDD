@@ -18,7 +18,7 @@ public class PurchaseController : ControllerBase
     }
 
     // Obtener una compra por su ID
-    [HttpGet("{id}")]
+    [HttpGet("update/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var purchase = await _purchaseService
