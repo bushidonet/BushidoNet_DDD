@@ -4,3 +4,42 @@
     build:
       context: .
       dockerfile: AMochika.Presentation/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DEFAULT_CONNECTION_STRING: "Server=tcp:mochika.database.windows.net,1433;Initial Catalog=sql-telegram;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.1
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"     # Aumenta la memoria de Elasticsearch
+      - xpack.security.enabled=false     # Desactiva la seguridad (opcional para desarrollo)
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200" # Puerto para conectar Elasticsearch
+    volumes:
+        - elastic_data:/usr/share/elasticsearch/data
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.1
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # Conecta a Elasticsearch
+    ports:
+      - "5601:5601" # Puerto para la interfaz de Kibana
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elastic_data:
+    driver: local
