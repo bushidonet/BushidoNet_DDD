@@ -1,0 +1,28 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.NameProyecto.Template.DDD.iml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+.DS_Store
+        .idea/
+        AMochika.Application/bin/
+        AMochika.Application/obj/
+        AMochika.Core/bin/
+        AMochika.Core/obj/
+        AMochika.Infrastructure/bin/
+        AMochika.Infrastructure/obj/
+        AMochika.Presentation/.env
+        AMochika.Presentation/bin/
+        AMochika.Presentation/obj/
+        AMochika.Test/bin/
+        AMochika.Test/obj/
+        NameProyecto.Template.DDD.sln.DotSettings.user
